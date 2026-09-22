@@ -66,7 +66,8 @@
   /* ---------- Gallery lightbox ---------- */
   var grid = document.getElementById('galleryGrid');
   var lightbox = document.getElementById('lightbox');
-  var lbImg = document.getElementById('lightboxImg');
+  var lbStage = document.getElementById('lightboxStage');
+  var lbImg = null;
   var lbClose = document.getElementById('lightboxClose');
   var lbPrev = document.getElementById('lightboxPrev');
   var lbNext = document.getElementById('lightboxNext');
@@ -75,8 +76,14 @@
   var lastFocused = null;
 
   function show(index) {
-    if (!items.length || !lbImg) return;
+    if (!items.length || !lbStage) return;
     current = (index + items.length) % items.length;
+    // The image element is created on demand so the page never ships an
+    // empty-src <img> placeholder in the DOM.
+    if (!lbImg) {
+      lbImg = document.createElement('img');
+      lbStage.appendChild(lbImg);
+    }
     lbImg.src = items[current].src;
     lbImg.alt = items[current].alt;
   }
@@ -93,6 +100,8 @@
   function closeLightbox() {
     if (!lightbox) return;
     lightbox.hidden = true;
+    if (lbImg && lbImg.parentNode) lbImg.parentNode.removeChild(lbImg);
+    lbImg = null;
     document.body.style.overflow = '';
     if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
   }
@@ -112,7 +121,7 @@
 
   if (lightbox) {
     lightbox.addEventListener('click', function (e) {
-      if (e.target === lightbox) closeLightbox();
+      if (e.target === lightbox || e.target === lbStage) closeLightbox();
     });
   }
 

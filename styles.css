@@ -325,6 +325,7 @@ a.contact__card:hover{transform:translateY(-5px);box-shadow:var(--shadow);}
   display:flex;align-items:center;justify-content:center;padding:4rem 1.5rem;
 }
 .lightbox[hidden]{display:none;}
+.lightbox__stage{display:flex;align-items:center;justify-content:center;max-width:min(1100px,100%);max-height:100%;}
 .lightbox img{max-width:min(1100px,100%);max-height:100%;border-radius:var(--radius-sm);object-fit:contain;}
 .lightbox__close,.lightbox__nav{
   position:absolute;background:rgba(255,255,255,.12);border:0;color:#fff;cursor:pointer;
